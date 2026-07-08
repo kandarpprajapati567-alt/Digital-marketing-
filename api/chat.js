@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
+    // Ensure only POST requests are processed
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Only POST method is allowed' });
     }
@@ -10,9 +11,12 @@ export default async function handler(req, res) {
     const { message } = req.body;
 
     try {
+        // Initialize the Gemini AI client
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         
-        const systemPrompt = `
+        // COMBINED PROMPT: We mix the system instructions with the user's message here.
+        // This ensures compatibility with older SDK versions that don't support 'systemInstruction'.
+        const combinedPrompt = `
         You are an expert AI Sales Assistant for KP.Digital.
         The user just selected a requirement or is trying to negotiate.
         
@@ -27,37 +31,43 @@ export default async function handler(req, res) {
         - Social Media Mgt: $300/month
         - SEO & Web Dev: $800 one-time
         - Full Package: $1200
+        
+        User's Message: "${message}"
         `;
 
-        // DYNAMIC MODEL SELECTOR (JavaScript Inbuilt array iteration & Try/Catch)
-        // Yeh error aane par crash nahi hone dega, active model automatically dhoondhega
+        // Array of models to try
         const availableModels = ["gemini-1.5-flash", "gemini-pro", "gemini-1.0-pro"];
         let aiReply = "";
         let success = false;
+        let lastErrorMessage = "";
 
+        // Loop through models until one succeeds
         for (let i = 0; i < availableModels.length; i++) {
             try {
-                const model = genAI.getGenerativeModel({
-                    model: availableModels[i],
-                    systemInstruction: systemPrompt,
-                });
+                // Notice we removed the systemInstruction parameter here
+                const model = genAI.getGenerativeModel({ model: availableModels[i] });
                 
-                const result = await model.generateContent(message);
+                // We pass the combinedPrompt directly into generateContent
+                const result = await model.generateContent(combinedPrompt);
                 aiReply = result.response.text();
                 success = true;
-                break; // Agar response mil gaya, toh loop se baahar aa jao
+                break; // Exit the loop if successful
             } catch (err) {
-                console.warn(`Model ${availableModels[i]} failed, trying next...`);
-                // Error ignore karega aur array ka agla model try karega
+                // Capture the exact error message for debugging
+                lastErrorMessage = err.message;
+                console.warn(`Model ${availableModels[i]} failed: ${err.message}`);
             }
         }
 
+        // If all models fail, return the exact error message so we know how to fix it
         if (!success) {
-            return res.status(500).json({ reply: "Sorry, all AI models are currently down. Please contact directly via email." });
+            console.error("All models failed. Last Error:", lastErrorMessage);
+            return res.status(500).json({ reply: `API Error: ${lastErrorMessage}` });
         }
 
-        // Email Trigger Logic
+        // Email Trigger Logic for closed deals
         if (aiReply.includes('[DEAL_CLOSED]')) {
+            // Remove the secret code so the user doesn't see it
             aiReply = aiReply.replace('[DEAL_CLOSED]', '').trim();
 
             const transporter = nodemailer.createTransport({
@@ -72,12 +82,13 @@ export default async function handler(req, res) {
                 from: process.env.EMAIL_USER,
                 to: 'Kandarprajapati567@gmail.com',
                 subject: '🚀 New Digital Marketing Deal Closed by AI!',
-                text: `Badhai ho! AI ne ek client ke sath deal close ki hai.\n\nClient message: "${message}"\n\nPlease jaldi se follow up karein!`
+                text: `Congratulations! The AI successfully closed a deal.\n\nClient message: "${message}"\n\nPlease follow up!`
             };
 
             transporter.sendMail(mailOptions).catch(console.error);
         }
 
+        // Send the AI's response back to the frontend
         return res.status(200).json({ reply: aiReply });
 
     } catch (error) {
