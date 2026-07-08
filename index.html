@@ -12,48 +12,70 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* Aapka existing CSS yahan hai */
+        /* --- Base Styles --- */
         :root { --bg-color: #050814; --card-bg: #0b0f19; --neon-cyan: #00e5ff; --text-main: #e2e8f0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.8; display: flex; flex-direction: column; min-height: 100vh; font-size: 18px; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.8; display: flex; flex-direction: column; min-height: 100vh; font-size: 16px; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Montserrat', sans-serif; color: #ffffff; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background-color: rgba(5, 8, 20, 0.95); border-bottom: 2px solid var(--neon-cyan); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.8rem; font-weight: 700; color: var(--neon-cyan); text-decoration: none; }
-        nav ul { list-style: none; display: flex; gap: 30px; }
-        nav ul li a { color: var(--text-main); text-decoration: none; font-weight: 500; }
-        .main-content { flex: 1; padding: 80px 5%; max-width: 1200px; margin: 0 auto; text-align: center; }
-        .neon-text { color: var(--neon-cyan); }
-        .cta-btn { display: inline-block; color: var(--neon-cyan); padding: 16px 40px; border: 2px solid var(--neon-cyan); border-radius: 8px; text-decoration: none; margin-top: 30px; }
         
-        /* --- NAYA CSS: Chatbot UI Ke Liye --- */
+        /* --- NAYA: Responsive Header & Navigation --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background-color: rgba(5, 8, 20, 0.95); border-bottom: 2px solid var(--neon-cyan); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--neon-cyan); text-decoration: none; }
+        
+        /* Desktop Nav */
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav ul li a { color: var(--text-main); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        nav ul li a:hover { color: var(--neon-cyan); }
+        
+        /* Hamburger Button (Mobile ke liye hidden by default) */
+        .menu-toggle { display: none; background: none; border: none; color: var(--neon-cyan); font-size: 28px; cursor: pointer; }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 60px 5%; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .neon-text { color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
+        .cta-btn { display: inline-block; color: var(--neon-cyan); padding: 14px 30px; border: 2px solid var(--neon-cyan); border-radius: 8px; text-decoration: none; margin-top: 30px; font-weight: 600; transition: 0.3s; }
+        .cta-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px var(--neon-cyan); }
+        
+        /* --- Chatbot UI --- */
         #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 999; }
-        #chat-toggle { background: var(--neon-cyan); color: #000; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 24px; cursor: pointer; box-shadow: 0 0 15px var(--neon-cyan); }
-        #chat-box { display: none; width: 350px; height: 450px; background: var(--card-bg); border: 1px solid var(--neon-cyan); border-radius: 10px; flex-direction: column; position: absolute; bottom: 70px; right: 0; overflow: hidden; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
-        #chat-header { background: #02040a; padding: 15px; border-bottom: 1px solid var(--neon-cyan); display: flex; justify-content: space-between; align-items: center; }
+        #chat-toggle { background: var(--neon-cyan); color: #000; border: none; border-radius: 50%; width: 55px; height: 55px; font-size: 24px; cursor: pointer; box-shadow: 0 0 15px var(--neon-cyan); }
+        #chat-box { display: none; width: 90vw; max-width: 350px; height: 60vh; max-height: 450px; background: var(--card-bg); border: 1px solid var(--neon-cyan); border-radius: 10px; flex-direction: column; position: absolute; bottom: 70px; right: 0; overflow: hidden; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
+        #chat-header { background: #02040a; padding: 15px; border-bottom: 1px solid var(--neon-cyan); display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
         #chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
-        .msg { padding: 10px; border-radius: 8px; max-width: 80%; }
+        .msg { padding: 10px; border-radius: 8px; max-width: 85%; word-wrap: break-word; }
         .bot-msg { background: #1e293b; align-self: flex-start; color: #fff; }
         .user-msg { background: var(--neon-cyan); align-self: flex-end; color: #000; }
         #chat-input-area { display: flex; border-top: 1px solid #1e293b; }
         #user-input { flex: 1; padding: 12px; background: transparent; border: none; color: #fff; outline: none; }
-        #send-btn { padding: 12px 20px; background: var(--neon-cyan); color: #000; border: none; cursor: pointer; font-weight: bold; }
+        #send-btn { padding: 12px 15px; background: var(--neon-cyan); color: #000; border: none; cursor: pointer; font-weight: bold; }
+
+        /* --- MOBILE RESPONSIVE CSS --- */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(5, 8, 20, 0.98); padding: 20px 0; border-bottom: 2px solid var(--neon-cyan); text-align: center; gap: 15px; }
+            nav ul.active { display: flex; }
+            .main-content h1 { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <a href="index.html" class="logo">KP.Digital</a>
+        <button class="menu-toggle" id="mobile-menu-btn">☰</button>
         <nav>
-            <ul>
+            <ul id="nav-links">
                 <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="main-content">
-        <h1 style="font-size: 3.8rem; margin-bottom: 20px;">Empowering Brands to Achieve <br><span class="neon-text">Digital Dominance</span></h1>
-        <p>I am Kandarp Prajapati, a data-driven Digital Marketer specializing in high-converting strategies.</p>
+        <h1 style="margin-bottom: 15px;">Empowering Brands to Achieve <br><span class="neon-text">Digital Dominance</span></h1>
+        <p style="color: #94a3b8; font-size: 1rem;">I am Kandarp Prajapati, a data-driven Digital Marketer specializing in high-converting strategies and modern web solutions.</p>
         <a href="contact.html" class="cta-btn">Start Your Project Today</a>
     </main>
 
@@ -61,13 +83,13 @@
         <div id="chat-box">
             <div id="chat-header">
                 <strong>AI Sales Assistant 🤖</strong>
-                <button id="close-chat" style="background: none; border: none; color: #fff; cursor: pointer;">✖</button>
+                <button id="close-chat" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 16px;">✖</button>
             </div>
             <div id="chat-messages">
                 <div class="msg bot-msg">Hello! Main KP.Digital ka AI assistant hoon. Aap kis tarah ki marketing services dhoondh rahe hain?</div>
             </div>
             <div id="chat-input-area">
-                <input type="text" id="user-input" placeholder="Type your message...">
+                <input type="text" id="user-input" placeholder="Type message...">
                 <button id="send-btn">Send</button>
             </div>
         </div>
@@ -75,6 +97,21 @@
     </div>
 
     <script>
+        // --- NAYA: Mobile Menu Logic ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            // Change icon between Hamburger (☰) and Close (✖)
+            if(navLinks.classList.contains('active')) {
+                mobileMenuBtn.innerHTML = '✖';
+            } else {
+                mobileMenuBtn.innerHTML = '☰';
+            }
+        });
+
+        // --- Chatbot Logic ---
         const chatToggle = document.getElementById('chat-toggle');
         const chatBox = document.getElementById('chat-box');
         const closeChat = document.getElementById('close-chat');
@@ -83,17 +120,18 @@
         const chatMessages = document.getElementById('chat-messages');
 
         // Toggle Chat window
-        chatToggle.addEventListener('click', () => chatBox.style.display = 'flex');
+        chatToggle.addEventListener('click', () => {
+            chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+        });
         closeChat.addEventListener('click', () => chatBox.style.display = 'none');
 
-        // Function to add a message to the chat
+        // Function to add a message
         function addMessage(text, sender) {
             const msgDiv = document.createElement('div');
-            msgDiv.classList.add('msg');
-            msgDiv.classList.add(sender === 'user' ? 'user-msg' : 'bot-msg');
+            msgDiv.classList.add('msg', sender === 'user' ? 'user-msg' : 'bot-msg');
             msgDiv.innerText = text;
             chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight; 
         }
 
         // Handle sending message
@@ -101,21 +139,18 @@
             const text = userInput.value.trim();
             if (!text) return;
 
-            // 1. Show user message
             addMessage(text, 'user');
             userInput.value = '';
 
-            // 2. Add temporary "Typing..." indicator
-            const typingId = Date.now();
+            const typingId = 'typing-' + Date.now();
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('msg', 'bot-msg');
             msgDiv.id = typingId;
             msgDiv.innerText = 'Typing...';
             chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
 
             try {
-                // 3. Send request to our secure backend (Hum isko next step me banayenge)
-                // Note: '/api/chat' humara Vercel serverless function hoga
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -124,9 +159,12 @@
                 
                 const data = await response.json();
                 
-                // 4. Remove "Typing..." and show AI response
                 document.getElementById(typingId).remove();
-                addMessage(data.reply, 'bot');
+                if(response.ok) {
+                    addMessage(data.reply, 'bot');
+                } else {
+                    addMessage("Error: " + (data.message || "System error"), 'bot');
+                }
 
             } catch (error) {
                 document.getElementById(typingId).remove();
@@ -134,7 +172,6 @@
             }
         });
 
-        // Allow pressing Enter to send
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendBtn.click();
         });
