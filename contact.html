@@ -6,7 +6,11 @@
     <title>Contact Kandarp Prajapati | Get In Touch</title>
     <meta name="description" content="Get in touch with Kandarp Prajapati for digital marketing consultancy. Submit your query or reach directly via phone/email.">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         :root { --bg-color: #050814; --card-bg: #0b0f19; --neon-cyan: #00e5ff; --text-main: #e2e8f0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -32,13 +36,6 @@
         .footer-links a { color: var(--neon-cyan); text-decoration: none; margin: 0 15px; font-weight: 600; }
         @media (max-width: 768px) { header { flex-direction: column; gap: 15px; } nav ul { gap: 15px; } }
     </style>
-    <script>
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            alert("Thank you! Your form submission has been tested and registered successfully on the frontend setup.");
-            document.getElementById("contactForm").reset();
-        }
-    </script>
 </head>
 <body>
 
@@ -71,23 +68,25 @@
                 <div class="neon-card">
                     <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">Social Platforms</h3>
                     <p style="margin-bottom: 5px;">Instagram handle:</p>
-                    <a href="https://instagram.com/grow_with_k.k._8140" target="_blank" style="color: var(--neon-cyan); text-decoration: none; font-weight: 600; font-size: 1.1rem;">@grow_with_k.k._8140</a>
+                    <a href="https://www.instagram.com/grow_with_k.k__8140?igsh=MXFvbmUxa3NoZzd6ZQ==" target="_blank" style="color: var(--neon-cyan); text-decoration: none; font-weight: 600; font-size: 1.1rem;">@grow_with_k.k__8140</a>
                 </div>
             </div>
 
             <div>
-                <form id="contactForm" class="neon-card" onsubmit="handleFormSubmit(event)">
+                <!-- Functional Formspree Integration -->
+                <!-- Replace 'YOUR_FORMSPREE_LINK_HERE' with your actual form link from Formspree -->
+                <form id="contactForm" action="https://formspree.io/f/mdarvrzo" method="POST" class="neon-card">
                     <div class="form-group">
                         <label for="name">Your Name</label>
-                        <input type="text" id="name" class="form-control" placeholder="Enter full name" required>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter full name" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email Address</label>
-                        <input type="email" id="email" class="form-control" placeholder="name@example.com" required>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com" required>
                     </div>
                     <div class="form-group">
                         <label for="message">Project Requirements / Message</label>
-                        <textarea id="message" class="form-control" rows="5" placeholder="Briefly describe your requirements..." required></textarea>
+                        <textarea id="message" name="message" class="form-control" rows="5" placeholder="Briefly describe your requirements..." required></textarea>
                     </div>
                     <button type="submit" class="submit-btn">Send Secure Message</button>
                 </form>
@@ -99,7 +98,7 @@
         <p>Email: Kandarprajapati567@gmail.com | Phone: +91 8140263363</p>
         <div class="footer-links">
             <a href="contact.html">Hire Me</a> | 
-            <a href="https://instagram.com/grow_with_k.k._8140" target="_blank">Instagram Profile</a>
+            <a href="https://www.instagram.com/grow_with_k.k__8140?igsh=MXFvbmUxa3NoZzd6ZQ==" target="_blank">Instagram Profile</a>
         </div>
     </footer>
 
