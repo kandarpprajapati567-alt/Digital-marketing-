@@ -1,8 +1,8 @@
 // api/chat.js
 import nodemailer from 'nodemailer';
-// Dekhiye, humne yahan Google package import hata diya hai!
 
 export default async function handler(req, res) {
+    // Only allow POST requests from the chat interface
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Only POST method is allowed' });
     }
@@ -10,11 +10,13 @@ export default async function handler(req, res) {
     const { message } = req.body;
     const apiKey = process.env.GEMINI_API_KEY;
 
+    // Check if the API key is successfully loaded from Vercel
     if (!apiKey) {
         return res.status(500).json({ reply: "API Key missing in Vercel Environment Variables." });
     }
 
     try {
+        // The combined prompt containing rules and user message
         const combinedPrompt = `
         You are an expert AI Sales Assistant for KP.Digital.
         The user just selected a requirement or is trying to negotiate.
@@ -34,37 +36,55 @@ export default async function handler(req, res) {
         User's Message: "${message}"
         `;
 
-        // INBUILT JAVASCRIPT FETCH API
-        // Direct REST API call without any NPM package
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-        
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: combinedPrompt }]
-                }]
-            })
-        });
+        // List of models to try. We include '-latest' to handle strict 404 errors.
+        const availableModels = ["gemini-1.5-flash-latest", "gemini-1.5-flash", "gemini-pro"];
+        let aiReply = "";
+        let success = false;
+        let lastErrorMessage = "";
 
-        const data = await response.json();
+        // Fallback Loop: Try models one by one using the native fetch API
+        for (let modelName of availableModels) {
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: combinedPrompt }] }]
+                    })
+                });
 
-        // Error handling from the raw API
-        if (!response.ok) {
-            console.error("Inbuilt Fetch Error:", data);
-            return res.status(500).json({ reply: `API Error: ${data.error?.message || "Unknown API issue"}` });
+                const data = await response.json();
+
+                // If the response is good, extract the text and stop the loop
+                if (response.ok && data.candidates && data.candidates.length > 0) {
+                    aiReply = data.candidates[0].content.parts[0].text;
+                    success = true;
+                    break; 
+                } else {
+                    // Log the error but allow the loop to continue to the next model
+                    lastErrorMessage = data.error?.message || "Unknown API error";
+                    console.warn(`Model ${modelName} failed: ${lastErrorMessage}`);
+                }
+            } catch (err) {
+                lastErrorMessage = err.message;
+                console.warn(`Fetch request failed for ${modelName}: ${err.message}`);
+            }
         }
 
-        // Parsing the response text exactly as the API returns it
-        let aiReply = data.candidates[0].content.parts[0].text;
+        // If all models in the array failed, send the error to the chat UI
+        if (!success) {
+            console.error("All models failed. Last Error:", lastErrorMessage);
+            return res.status(500).json({ reply: `API Error: ${lastErrorMessage}` });
+        }
 
-        // Email Trigger Logic
+        // Check if the AI decided to close the deal
         if (aiReply.includes('[DEAL_CLOSED]')) {
+            // Remove the secret tag from the user's view
             aiReply = aiReply.replace('[DEAL_CLOSED]', '').trim();
 
+            // Setup Nodemailer to send you an alert
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -77,12 +97,14 @@ export default async function handler(req, res) {
                 from: process.env.EMAIL_USER,
                 to: 'Kandarprajapati567@gmail.com',
                 subject: '🚀 New Digital Marketing Deal Closed by AI!',
-                text: `Badhai ho! AI ne ek client ke sath deal close ki hai.\n\nClient message: "${message}"\n\nPlease jaldi se follow up karein!`
+                text: `Congratulations! The AI closed a deal.\n\nClient message: "${message}"\n\nPlease follow up quickly!`
             };
 
+            // Send the email in the background
             transporter.sendMail(mailOptions).catch(console.error);
         }
 
+        // Send the AI's response back to the user
         return res.status(200).json({ reply: aiReply });
 
     } catch (error) {
