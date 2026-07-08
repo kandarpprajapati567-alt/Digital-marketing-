@@ -9,48 +9,59 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
+        /* --- Base Setup --- */
         :root { --bg-color: #050814; --card-bg: #0b0f19; --neon-cyan: #00e5ff; --text-main: #e2e8f0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.8; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Montserrat', sans-serif; color: #ffffff; }
         
-        /* --- Right Aligned Navigation --- */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background-color: rgba(5, 8, 20, 0.95); border-bottom: 2px solid var(--neon-cyan); position: sticky; top: 0; z-index: 100; }
+        /* --- Fixed Navigation --- */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background-color: rgba(5, 8, 20, 0.95); border-bottom: 2px solid var(--neon-cyan); position: sticky; top: 0; z-index: 100; width: 100%; }
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--neon-cyan); text-decoration: none; }
-        nav { flex: 1; display: flex; justify-content: flex-end; /* Right side alignment */ }
+        
+        nav { flex: 1; display: flex; justify-content: flex-end; }
         nav ul { list-style: none; display: flex; gap: 25px; }
         nav ul li a { color: var(--text-main); text-decoration: none; font-weight: 500; transition: color 0.3s; }
         nav ul li a:hover { color: var(--neon-cyan); }
-        .menu-toggle { display: none; background: none; border: none; color: var(--neon-cyan); font-size: 28px; cursor: pointer; }
-
-        .main-content { flex: 1; padding: 60px 5%; max-width: 1200px; margin: 0 auto; text-align: center; }
-        .neon-text { color: var(--neon-cyan); }
-        .cta-btn { display: inline-block; color: var(--neon-cyan); padding: 14px 30px; border: 2px solid var(--neon-cyan); border-radius: 8px; text-decoration: none; margin-top: 30px; font-weight: 600; cursor: pointer; background: transparent; }
-        .cta-btn:hover { background: var(--neon-cyan); color: #000; }
         
-        /* --- Integrated AI Chat Section --- */
+        /* Hamburger Menu Fix: Moved to extreme right */
+        .menu-toggle { display: none; background: none; border: none; color: var(--neon-cyan); font-size: 28px; cursor: pointer; margin-left: auto; }
+
+        .main-content { flex: 1; padding: 60px 5%; max-width: 1200px; margin: 0 auto; text-align: center; width: 100%; }
+        .neon-text { color: var(--neon-cyan); }
+        .cta-btn { display: inline-block; color: var(--neon-cyan); padding: 14px 30px; border: 2px solid var(--neon-cyan); border-radius: 8px; text-decoration: none; margin-top: 30px; font-weight: 600; cursor: pointer; background: transparent; transition: 0.3s; }
+        .cta-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px var(--neon-cyan); }
+        
+        /* --- AI Chat Section --- */
         .ai-negotiation-box { margin-top: 40px; padding: 20px; border: 1px dashed #1e293b; border-radius: 10px; background: rgba(11, 15, 25, 0.5); display: flex; flex-direction: column; align-items: center; }
         .ai-notice { color: var(--neon-cyan); font-weight: 600; margin-bottom: 15px; font-size: 1.1rem; }
         
-        #chat-box { display: none; width: 100%; max-width: 400px; height: 400px; background: var(--card-bg); border: 1px solid var(--neon-cyan); border-radius: 10px; flex-direction: column; overflow: hidden; margin-top: 20px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
+        #chat-box { display: none; width: 100%; max-width: 400px; height: 450px; background: var(--card-bg); border: 1px solid var(--neon-cyan); border-radius: 10px; flex-direction: column; overflow: hidden; margin-top: 20px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
         #chat-header { background: #02040a; padding: 15px; border-bottom: 1px solid var(--neon-cyan); text-align: center; font-size: 14px; }
         #chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 14px; text-align: left; }
         .msg { padding: 10px; border-radius: 8px; max-width: 85%; word-wrap: break-word; }
         .bot-msg { background: #1e293b; align-self: flex-start; color: #fff; }
         .user-msg { background: var(--neon-cyan); align-self: flex-end; color: #000; }
         
-        /* Requirement Options */
-        .options-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .req-btn { padding: 8px 15px; background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); border-radius: 20px; cursor: pointer; font-size: 12px; transition: 0.3s; }
-        .req-btn:hover { background: var(--neon-cyan); color: #000; }
+        /* --- NEW: Multi-Select Requirements --- */
+        .options-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        
+        /* Hidden Checkbox logic for custom buttons */
+        .req-label { cursor: pointer; display: inline-block; }
+        .req-label input { display: none; }
+        .req-btn-style { display: inline-block; padding: 8px 15px; background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); border-radius: 20px; font-size: 12px; transition: 0.3s; user-select: none; }
+        
+        /* Jab option select hoga tab kaisa dikhega */
+        .req-label input:checked + .req-btn-style { background: var(--neon-cyan); color: #000; font-weight: bold; box-shadow: 0 0 10px var(--neon-cyan); }
 
-        #chat-input-area { display: flex; border-top: 1px solid #1e293b; display: none; /* Hide until option selected */ }
+        #chat-input-area { display: flex; border-top: 1px solid #1e293b; display: none; /* Hide initially */ }
         #user-input { flex: 1; padding: 12px; background: transparent; border: none; color: #fff; outline: none; }
         #send-btn { padding: 12px 15px; background: var(--neon-cyan); color: #000; border: none; cursor: pointer; font-weight: bold; }
 
+        /* --- Mobile Responsive CSS --- */
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
-            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: #050814; padding: 20px 0; text-align: center; }
+            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: #050814; padding: 20px 0; text-align: center; border-bottom: 1px solid var(--neon-cyan); }
             nav ul.active { display: flex; }
         }
     </style>
@@ -59,6 +70,7 @@
 
     <header>
         <a href="index.html" class="logo">KP.Digital</a>
+        <!-- Hamburger Menu Button -->
         <button class="menu-toggle" id="mobile-menu-btn">☰</button>
         <nav>
             <ul id="nav-links">
@@ -72,11 +84,11 @@
 
     <main class="main-content">
         <h1>Empowering Brands to Achieve <br><span class="neon-text">Digital Dominance</span></h1>
-        <p style="color: #94a3b8;">I am Kandarp Prajapati, a data-driven Digital Marketer specializing in high-converting strategies.</p>
+        <p style="color: #94a3b8; font-size: 1rem; margin-top: 10px;">I am Kandarp Prajapati, a data-driven Digital Marketer specializing in high-converting strategies.</p>
         
         <a href="contact.html" class="cta-btn">Start Your Project Today</a>
 
-        <!-- Naya: AI Negotiation Section Under CTA -->
+        <!-- AI Negotiation Section -->
         <div class="ai-negotiation-box">
             <p class="ai-notice">🤖 Chat with AI to Negotiate Services & Combo Packages!</p>
             <button id="chat-toggle" class="cta-btn" style="margin-top: 0; padding: 10px 20px;">Open AI Assistant</button>
@@ -85,16 +97,27 @@
                 <div id="chat-header"><strong>AI Sales Partner 🤖</strong></div>
                 <div id="chat-messages">
                     <div class="msg bot-msg">
-                        Hello! Main Kandarp ka AI Sales Partner hoon. Please apni requirement select karein taaki hum packages discuss kar sakein:
+                        Hello! Main Kandarp ka AI Sales Partner hoon. Aapko jo bhi services chahiye unhe select karein aur 'Submit' dabayein:
+                        
+                        <!-- NAYA: Multi-select Checkboxes -->
                         <div class="options-container" id="requirement-options">
-                            <button class="req-btn" data-val="I want Social Media Management">Social Media</button>
-                            <button class="req-btn" data-val="I want SEO and Website Development">SEO & Web Dev</button>
-                            <button class="req-btn" data-val="I want the Full Digital Dominance Package">Full Package</button>
+                            <label class="req-label"><input type="checkbox" value="Social Media Management"> <span class="req-btn-style">Social Media Mgt</span></label>
+                            <label class="req-label"><input type="checkbox" value="SEO Optimization"> <span class="req-btn-style">SEO</span></label>
+                            <label class="req-label"><input type="checkbox" value="Website Development"> <span class="req-btn-style">Web Development</span></label>
+                            <label class="req-label"><input type="checkbox" value="Meta & Google Ads"> <span class="req-btn-style">Meta & Google Ads</span></label>
+                            <label class="req-label"><input type="checkbox" value="Content Creation"> <span class="req-btn-style">Content Creation</span></label>
+                            <label class="req-label"><input type="checkbox" value="Email Marketing"> <span class="req-btn-style">Email Marketing</span></label>
+                            
+                            <!-- Submit Button for Services -->
+                            <div style="width: 100%; text-align: center; margin-top: 10px;">
+                                <button id="submit-services-btn" class="cta-btn" style="padding: 8px 20px; font-size: 13px; margin-top: 5px;">Submit Requirements</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- Chat Input Area (Hidden initially) -->
                 <div id="chat-input-area">
-                    <input type="text" id="user-input" placeholder="Negotiate your price...">
+                    <input type="text" id="user-input" placeholder="Type your message...">
                     <button id="send-btn">Send</button>
                 </div>
             </div>
@@ -102,7 +125,7 @@
     </main>
 
     <script>
-        // Mobile Menu
+        // Mobile Menu Logic
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const navLinks = document.getElementById('nav-links');
         mobileMenuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
@@ -110,11 +133,12 @@
         // Chatbot UI Elements
         const chatToggle = document.getElementById('chat-toggle');
         const chatBox = document.getElementById('chat-box');
-        const reqButtons = document.querySelectorAll('.req-btn');
         const chatMessages = document.getElementById('chat-messages');
         const inputArea = document.getElementById('chat-input-area');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
+        const submitServicesBtn = document.getElementById('submit-services-btn');
+        const reqOptionsDiv = document.getElementById('requirement-options');
 
         chatToggle.addEventListener('click', () => {
             chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
@@ -129,7 +153,7 @@
             chatMessages.scrollTop = chatMessages.scrollHeight; 
         }
 
-        // Send Message Function
+        // Send Message Function to Backend
         async function sendMessageToAI(text) {
             addMessage(text, 'user');
             userInput.value = '';
@@ -158,17 +182,33 @@
             }
         }
 
-        // Handle Requirement Button Click
-        reqButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const choice = e.target.getAttribute('data-val');
-                document.getElementById('requirement-options').style.display = 'none'; // Hide buttons
-                inputArea.style.display = 'flex'; // Show typing area
-                sendMessageToAI(choice); // Send choice to Gemini automatically
+        // --- NEW: Handle Multiple Service Submission ---
+        submitServicesBtn.addEventListener('click', () => {
+            // Get all checked checkboxes
+            const selectedBoxes = document.querySelectorAll('.req-label input:checked');
+            let selectedServices = [];
+            
+            selectedBoxes.forEach(box => {
+                selectedServices.push(box.value);
             });
+
+            if (selectedServices.length === 0) {
+                alert("Please select at least one service before submitting.");
+                return;
+            }
+
+            // Create a comma-separated list of chosen services
+            const finalRequirementText = "I want these services: " + selectedServices.join(", ");
+            
+            // Hide the options UI and show the chat input
+            reqOptionsDiv.style.display = 'none'; 
+            inputArea.style.display = 'flex'; 
+            
+            // Send the combined requirements to the AI
+            sendMessageToAI(finalRequirementText);
         });
 
-        // Handle Send Button & Enter Key
+        // Handle Normal Chat Send Button & Enter Key
         sendBtn.addEventListener('click', () => {
             if (userInput.value.trim()) sendMessageToAI(userInput.value.trim());
         });
