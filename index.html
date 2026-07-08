@@ -3,403 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kandarp Prajapati | Digital Marketer</title>
-    <meta name="description" content="Premium Digital Marketing Services by Kandarp Prajapati.">
+    <!-- SEO Meta Tags[span_1](start_span)[span_1](end_span) -->
+    <title>Kandarp Prajapati | Home</title>
+    <meta name="description" content="Digital Dominance Starts Here. Portfolio of Kandarp Prajapati, Digital Marketer.">
     
-    <!-- Using Google Fonts for a Premium Look -->
+    <!-- Max 2 Fonts[span_2](start_span)[span_2](end_span) -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- All CSS inside the file to prevent Vercel loading issues -->
     <style>
-        /* Modern Color Palette */
+        /* Max 3 Colors: Deep Black, White/Grey, Cyan Accent[span_3](start_span)[span_3](end_span) */
         :root {
-            --bg-color: #0d1117; /* Premium Deep Blue/Black */
-            --card-bg: #161b22; /* Slightly lighter for cards */
-            --text-main: #c9d1d9; /* Soft white for readability */
-            --accent-glow: #00e5ff; /* Cyan Accent */
+            --bg-color: #0d1117; 
+            --card-bg: #161b22; 
+            --text-main: #c9d1d9; 
+            --accent-glow: #00e5ff; 
             --accent-hover: #00b8cc;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Montserrat', sans-serif;
-            color: #ffffff;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; color: #ffffff; }
 
         /* --- Navigation Bar --- */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            background-color: #010409;
-            border-bottom: 1px solid #30363d;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background-color: #010409; border-bottom: 1px solid #30363d;
         }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent-glow); text-decoration: none; }
+        
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        /* Active link styling */
+        nav ul li a { color: var(--text-main); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        nav ul li a:hover, nav ul li a.active { color: var(--accent-glow); }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-glow);
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 30px;
-        }
-
-        nav ul li a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: var(--accent-glow);
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            text-align: center;
-            padding: 120px 20px;
-            background: radial-gradient(circle at center, #161b22 0%, #0d1117 100%);
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            background: -webkit-linear-gradient(45deg, #ffffff, var(--accent-glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 40px auto;
-            color: #8b949e;
-        }
-
+        /* --- Page Content --- */
+        .main-content { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 80px 20px; }
+        .main-content h1 { font-size: 3rem; margin-bottom: 20px; color: var(--accent-glow); }
+        .main-content p { font-size: 1.2rem; max-width: 600px; margin-bottom: 40px; }
+        
         .cta-btn {
-            background-color: var(--accent-glow);
-            color: #000000;
-            padding: 15px 35px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            border-radius: 8px;
+            background-color: var(--accent-glow); color: #000; padding: 15px 35px;
+            font-size: 1.1rem; font-weight: 700; text-decoration: none; border-radius: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
         }
-
-        .cta-btn:hover {
-            background-color: var(--accent-hover);
-            box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* --- Services Section --- */
-        .services {
-            padding: 80px 5%;
-            text-align: center;
-        }
-
-        .services h2 {
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            color: var(--accent-glow);
-        }
-
-        .service-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            justify-content: center;
-        }
-
-        .service-box {
-            background-color: var(--card-bg);
-            padding: 40px 25px;
-            border-radius: 12px;
-            border: 1px solid #30363d;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-            text-align: left;
-        }
-
-        .service-box:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-glow);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .service-box h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: #ffffff;
-        }
-
-        .service-box p {
-            color: #8b949e;
-            font-size: 0.95rem;
-        }
+        .cta-btn:hover { background-color: var(--accent-hover); transform: translateY(-2px); }
 
         /* --- Footer --- */
-        footer {
-            background-color: #010409;
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid #30363d;
-            margin-top: 50px;
-        }
-
-        footer p {
-            color: #8b949e;
-            margin-bottom: 10px;
-        }
-
-        /* --- AI Chatbot Styles --- */
-        .chat-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--accent-glow);
-            color: #000;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-family: 'Montserrat', sans-serif;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .chat-toggle:hover {
-            transform: scale(1.05);
-        }
-
-        .chat-container {
-            display: none; 
-            position: fixed;
-            bottom: 90px;
-            right: 30px;
-            width: 320px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--accent-glow);
-            border-radius: 12px;
-            z-index: 1000;
-            flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            overflow: hidden;
-        }
-
-        .chat-header {
-            background-color: var(--accent-glow);
-            color: #000;
-            padding: 15px;
-            text-align: center;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-        }
-
-        .chat-box {
-            height: 300px;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .bot-msg {
-            background-color: #30363d;
-            color: #ffffff;
-            padding: 10px 15px;
-            border-radius: 8px 8px 8px 0;
-            align-self: flex-start;
-            font-size: 0.9rem;
-            max-width: 85%;
-        }
-
-        .user-msg {
-            background-color: var(--accent-glow);
-            color: #000000;
-            padding: 10px 15px;
-            border-radius: 8px 8px 0 8px;
-            align-self: flex-end;
-            font-size: 0.9rem;
-            max-width: 85%;
-            font-weight: 500;
-        }
-
-        .chat-input {
-            display: flex;
-            border-top: 1px solid #30363d;
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 15px;
-            background: #0d1117;
-            color: #ffffff;
-            border: none;
-            outline: none;
-        }
-
-        .chat-input button {
-            padding: 15px 20px;
-            background: var(--accent-glow);
-            color: #000;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-        }
+        footer { background-color: #010409; text-align: center; padding: 30px 20px; border-top: 1px solid #30363d; margin-top: auto; }
+        
+        @media (max-width: 768px) { header { flex-direction: column; gap: 15px; } .main-content h1 { font-size: 2.2rem; } }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header Navigation[span_4](start_span)[span_4](end_span) -->
     <header>
-        <a href="#" class="logo">KP.Digital</a>
+        <a href="index.html" class="logo">KP.Digital</a>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <!-- Href is # for now to prevent 404 errors until you create those specific pages -->
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
+                <!-- Notice the specific HTML file names in the href attributes -->
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Main Content Area -->
+    <main class="main-content">
         <h1>Digital Dominance Starts Here</h1>
         <p>I am Kandarp Prajapati, a data-driven Digital Marketer specializing in high-converting strategies and modern web solutions.</p>
-        <a href="#" class="cta-btn">Start Your Project</a>
-    </section>
+        <a href="contact.html" class="cta-btn">Start Your Project</a>
+    </main>
 
-    <!-- Services Section -->
-    <section class="services">
-        <h2>My Core Services</h2>
-        <div class="service-container">
-            <div class="service-box">
-                <h3>01. Graphic Design</h3>
-                <p>Professional branding, visual design, and creatives to make your brand completely stand out in the market.</p>
-            </div>
-            <div class="service-box">
-                <h3>02. Social Media Marketing</h3>
-                <p>Advanced campaign strategy and execution designed specifically for maximum engagement and reach.</p>
-            </div>
-            <div class="service-box">
-                <h3>03. SEO Optimization</h3>
-                <p>Complete On-Page, Off-Page, and Technical optimization to skyrocket your organic search rankings.</p>
-            </div>
-            <div class="service-box">
-                <h3>04. Paid Advertising (PPC)</h3>
-                <p>Highly targeted Meta Ads & Google Ads managed for maximum Return on Ad Spend (ROAS).</p>
-            </div>
-            <div class="service-box">
-                <h3>05. Web Development</h3>
-                <p>Fast-loading landing pages, e-commerce solutions, and perfect UI/UX design optimized for conversions.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
+    <!-- Footer[span_5](start_span)[span_5](end_span) -->
     <footer>
-        <p>Email: Kandarprajapati567@gmail.com | Phone: 8140263363</p>
+        <p>Email: Kandarprajapati567@gmail.com | Phone: +91 8140263363</p>
         <p>Instagram: @grow_with_k.k._8140</p>
-        <p style="font-size: 0.8rem; margin-top: 15px;">&copy; 2026 Kandarp Prajapati. All rights reserved.</p>
     </footer>
 
-    <!-- AI Chatbot UI -->
-    <div class="chat-container" id="chatContainer">
-        <div class="chat-header">
-            AI Assistant
-        </div>
-        <div class="chat-box" id="chatBox">
-            <p class="bot-msg">Hello! Main Kandarp ka AI assistant hu. Main aapki kaise madad kar sakta hu?</p>
-        </div>
-        <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Ask a question...">
-            <button id="sendMessage">Send</button>
-        </div>
-    </div>
-
-    <!-- AI Chat Toggle Button -->
-    <button class="chat-toggle" id="chatToggle">💬 Chat with AI</button>
-
-    <!-- JavaScript integrated in the same file -->
-    <script>
-        const chatToggle = document.getElementById('chatToggle');
-        const chatContainer = document.getElementById('chatContainer');
-        const sendMessage = document.getElementById('sendMessage');
-        const userInput = document.getElementById('userInput');
-        const chatBox = document.getElementById('chatBox');
-
-        chatToggle.addEventListener('click', () => {
-            if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
-                chatContainer.style.display = 'flex';
-                chatToggle.textContent = '❌ Close Chat';
-            } else {
-                chatContainer.style.display = 'none';
-                chatToggle.textContent = '💬 Chat with AI';
-            }
-        });
-
-        sendMessage.addEventListener('click', () => {
-            let text = userInput.value.trim();
-            if (text !== '') {
-                // Insert user message
-                chatBox.innerHTML += `<p class="user-msg">${text}</p>`;
-                userInput.value = '';
-                chatBox.scrollTop = chatBox.scrollHeight;
-                
-                // Simulate AI response for testing
-                setTimeout(() => {
-                    chatBox.innerHTML += `<p class="bot-msg">Main abhi learning mode mein hu. Please contact Kandarp directly at 8140263363.</p>`;
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                }, 1000);
-            }
-        });
-
-        // Allow sending message with Enter key
-        userInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                sendMessage.click();
-            }
-        });
-    </script>
 </body>
 </html>
