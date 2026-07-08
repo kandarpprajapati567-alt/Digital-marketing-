@@ -3,89 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Kandarp Prajapati | Digital Marketer</title>
-    <meta name="description" content="Kandarp Prajapati is a Digital Marketer offering SEO, SMM, Graphic Design, and Website Development services.">
+    <meta name="description" content="Premium Digital Marketing Services by Kandarp Prajapati.">
     
-    <link rel="icon" type="image/png" href="IMG_20260708_133707.png">
-    <link rel="stylesheet" href="style.css">
+    <!-- Using Google Fonts for a Premium Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- All CSS inside the file to prevent Vercel loading issues -->
+    <style>
+        /* Modern Color Palette */
+        :root {
+            --bg-color: #0d1117; /* Premium Deep Blue/Black */
+            --card-bg: #161b22; /* Slightly lighter for cards */
+            --text-main: #c9d1d9; /* Soft white for readability */
+            --accent-glow: #00e5ff; /* Cyan Accent */
+            --accent-hover: #00b8cc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: #ffffff;
+        }
+
+        /* --- Navigation Bar --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: #010409;
+            border-bottom: 1px solid #30363d;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-glow);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-glow);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            text-align: center;
+            padding: 120px 20px;
+            background: radial-gradient(circle at center, #161b22 0%, #0d1117 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: -webkit-linear-gradient(45deg, #ffffff, var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            color: #8b949e;
+        }
+
+        .cta-btn {
+            background-color: var(--accent-glow);
+            color: #000000;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+        }
+
+        .cta-btn:hover {
+            background-color: var(--accent-hover);
+            box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* --- Services Section --- */
+        .services {
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .services h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--accent-glow);
+        }
+
+        .service-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .service-box {
+            background-color: var(--card-bg);
+            padding: 40px 25px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            text-align: left;
+        }
+
+        .service-box:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-glow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .service-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .service-box p {
+            color: #8b949e;
+            font-size: 0.95rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #010409;
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #30363d;
+            margin-top: 50px;
+        }
+
+        footer p {
+            color: #8b949e;
+            margin-bottom: 10px;
+        }
+
+        /* --- AI Chatbot Styles --- */
+        .chat-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--accent-glow);
+            color: #000;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .chat-container {
+            display: none; 
+            position: fixed;
+            bottom: 90px;
+            right: 30px;
+            width: 320px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-glow);
+            border-radius: 12px;
+            z-index: 1000;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: var(--accent-glow);
+            color: #000;
+            padding: 15px;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        .chat-box {
+            height: 300px;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bot-msg {
+            background-color: #30363d;
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 8px 8px 8px 0;
+            align-self: flex-start;
+            font-size: 0.9rem;
+            max-width: 85%;
+        }
+
+        .user-msg {
+            background-color: var(--accent-glow);
+            color: #000000;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 8px;
+            align-self: flex-end;
+            font-size: 0.9rem;
+            max-width: 85%;
+            font-weight: 500;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #30363d;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 15px;
+            background: #0d1117;
+            color: #ffffff;
+            border: none;
+            outline: none;
+        }
+
+        .chat-input button {
+            padding: 15px 20px;
+            background: var(--accent-glow);
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header>
-        <div class="logo">
-            <img src="IMG_20260708_133707.png" alt="Kandarp Prajapati Logo">
-        </div>
+        <a href="#" class="logo">KP.Digital</a>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#">Home</a></li>
+                <!-- Href is # for now to prevent 404 errors until you create those specific pages -->
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
             </ul>
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
-        <h1>Empowering Brands to Achieve Digital Dominance</h1>
-        [span_6](start_span)<p>Hi, I am Kandarp Prajapati, a passionate results-driven Digital Marketer.[span_6](end_span)</p>
-        <a href="contact.html" class="cta-btn">Get In Touch</a>
+        <h1>Digital Dominance Starts Here</h1>
+        <p>I am Kandarp Prajapati, a data-driven Digital Marketer specializing in high-converting strategies and modern web solutions.</p>
+        <a href="#" class="cta-btn">Start Your Project</a>
     </section>
 
+    <!-- Services Section -->
     <section class="services">
         <h2>My Core Services</h2>
         <div class="service-container">
             <div class="service-box">
                 <h3>01. Graphic Design</h3>
-                [span_7](start_span)<p>Branding and visual design to make your brand stand out.[span_7](end_span)</p>
+                <p>Professional branding, visual design, and creatives to make your brand completely stand out in the market.</p>
             </div>
             <div class="service-box">
                 <h3>02. Social Media Marketing</h3>
-                [span_8](start_span)<p>Campaign strategy and execution for maximum engagement.[span_8](end_span)</p>
+                <p>Advanced campaign strategy and execution designed specifically for maximum engagement and reach.</p>
             </div>
             <div class="service-box">
-                <h3>03. SEO</h3>
-                [span_9](start_span)<p>On-Page, Off-Page, and Technical optimization.[span_9](end_span)</p>
+                <h3>03. SEO Optimization</h3>
+                <p>Complete On-Page, Off-Page, and Technical optimization to skyrocket your organic search rankings.</p>
             </div>
             <div class="service-box">
                 <h3>04. Paid Advertising (PPC)</h3>
-                [span_10](start_span)<p>Meta Ads & Google Ads for ROAS optimization.[span_10](end_span)</p>
+                <p>Highly targeted Meta Ads & Google Ads managed for maximum Return on Ad Spend (ROAS).</p>
             </div>
             <div class="service-box">
-                <h3>05. Website Development</h3>
-                [span_11](start_span)<p>Landing pages, e-commerce, and UI/UX design.[span_11](end_span)</p>
+                <h3>05. Web Development</h3>
+                <p>Fast-loading landing pages, e-commerce solutions, and perfect UI/UX design optimized for conversions.</p>
             </div>
         </div>
     </section>
 
-    <section class="testimonials">
-        <h2>Client Testimonials</h2>
-        <div class="testimonial-box">
-            [span_12](start_span)<p>"Kandarp delivered 50+ successful projects with data-driven results!"[span_12](end_span)</p>
-            <h4>- Happy Clients</h4>
-        </div>
-    </section>
-
+    <!-- Footer -->
     <footer>
-        <p>Email: Kandarprajapati567@gmail.com | [span_13](start_span)Phone: 8140263363[span_13](end_span)</p>
-        [span_14](start_span)<p>Instagram: @grow_with_k.k._8140[span_14](end_span)</p>
+        <p>Email: Kandarprajapati567@gmail.com | Phone: 8140263363</p>
+        <p>Instagram: @grow_with_k.k._8140</p>
+        <p style="font-size: 0.8rem; margin-top: 15px;">&copy; 2026 Kandarp Prajapati. All rights reserved.</p>
     </footer>
 
+    <!-- AI Chatbot UI -->
     <div class="chat-container" id="chatContainer">
         <div class="chat-header">
-            <h4>AI Assistant</h4>
+            AI Assistant
         </div>
         <div class="chat-box" id="chatBox">
             <p class="bot-msg">Hello! Main Kandarp ka AI assistant hu. Main aapki kaise madad kar sakta hu?</p>
         </div>
         <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Ask about services...">
+            <input type="text" id="userInput" placeholder="Ask a question...">
             <button id="sendMessage">Send</button>
         </div>
     </div>
 
+    <!-- AI Chat Toggle Button -->
     <button class="chat-toggle" id="chatToggle">💬 Chat with AI</button>
 
-    <script src="script.js"></script>
+    <!-- JavaScript integrated in the same file -->
+    <script>
+        const chatToggle = document.getElementById('chatToggle');
+        const chatContainer = document.getElementById('chatContainer');
+        const sendMessage = document.getElementById('sendMessage');
+        const userInput = document.getElementById('userInput');
+        const chatBox = document.getElementById('chatBox');
+
+        chatToggle.addEventListener('click', () => {
+            if (chatContainer.style.display === 'none' || chatContainer.style.display === '') {
+                chatContainer.style.display = 'flex';
+                chatToggle.textContent = '❌ Close Chat';
+            } else {
+                chatContainer.style.display = 'none';
+                chatToggle.textContent = '💬 Chat with AI';
+            }
+        });
+
+        sendMessage.addEventListener('click', () => {
+            let text = userInput.value.trim();
+            if (text !== '') {
+                // Insert user message
+                chatBox.innerHTML += `<p class="user-msg">${text}</p>`;
+                userInput.value = '';
+                chatBox.scrollTop = chatBox.scrollHeight;
+                
+                // Simulate AI response for testing
+                setTimeout(() => {
+                    chatBox.innerHTML += `<p class="bot-msg">Main abhi learning mode mein hu. Please contact Kandarp directly at 8140263363.</p>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }, 1000);
+            }
+        });
+
+        // Allow sending message with Enter key
+        userInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage.click();
+            }
+        });
+    </script>
 </body>
 </html>
