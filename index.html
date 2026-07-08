@@ -4,39 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kandarp Prajapati | Digital Marketer Portfolio</title>
-    <meta name="description" content="Empowering brands to achieve digital dominance. Freelance Digital Marketing services by Kandarp Prajapati including SEO, SMM, and Web Development.">
+    <meta name="description" content="Empowering brands to achieve digital dominance. Freelance Digital Marketing services by Kandarp Prajapati.">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     
-    <!-- Speed Optimization: Preconnecting Fonts[span_2](start_span)[span_2](end_span) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
+        /* Aapka existing CSS yahan hai */
         :root { --bg-color: #050814; --card-bg: #0b0f19; --neon-cyan: #00e5ff; --text-main: #e2e8f0; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.8; display: flex; flex-direction: column; min-height: 100vh; font-size: 18px; }
         h1, h2, h3 { font-family: 'Montserrat', sans-serif; color: #ffffff; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background-color: rgba(5, 8, 20, 0.95); border-bottom: 2px solid var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.8rem; font-weight: 700; color: var(--neon-cyan); text-decoration: none; text-shadow: 0 0 8px var(--neon-cyan); }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background-color: rgba(5, 8, 20, 0.95); border-bottom: 2px solid var(--neon-cyan); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.8rem; font-weight: 700; color: var(--neon-cyan); text-decoration: none; }
         nav ul { list-style: none; display: flex; gap: 30px; }
-        nav ul li a { color: var(--text-main); text-decoration: none; font-weight: 500; font-size: 1.1rem; transition: 0.3s; }
-        nav ul li a:hover, nav ul li a.active { color: var(--neon-cyan); text-shadow: 0 0 8px var(--neon-cyan); }
-        .main-content { flex: 1; padding: 80px 5%; max-width: 1200px; margin: 0 auto; width: 100%; text-align: center; }
-        .neon-text { color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
-        .cta-btn { display: inline-block; background-color: transparent; color: var(--neon-cyan); padding: 16px 40px; font-size: 1.2rem; font-weight: 700; text-decoration: none; border: 2px solid var(--neon-cyan); border-radius: 8px; box-shadow: 0 0 10px inset var(--neon-cyan), 0 0 10px var(--neon-cyan); transition: all 0.3s ease; margin-top: 30px; cursor: pointer; }
-        .cta-btn:hover { background-color: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); transform: translateY(-3px); }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 60px 0; }
-        .stat-card { background: var(--card-bg); padding: 25px; border: 1px solid #1e293b; border-radius: 10px; }
-        .stat-card h3 { font-size: 1.8rem; color: var(--neon-cyan); margin-bottom: 10px; }
-        .testimonial-section { margin-top: 80px; padding-top: 40px; border-top: 1px solid #1e293b; }
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
-        .neon-card { background-color: var(--card-bg); padding: 35px; border-radius: 10px; border: 1px solid #1e293b; text-align: left; transition: 0.3s; }
-        .neon-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
-        footer { background-color: #02040a; text-align: center; padding: 40px 20px; border-top: 1px solid #1e293b; margin-top: auto; font-size: 1rem; }
-        footer p { margin-bottom: 10px; }
-        .footer-links a { color: var(--neon-cyan); text-decoration: none; margin: 0 15px; font-weight: 600; }
-        @media (max-width: 768px) { header { flex-direction: column; gap: 15px; } nav ul { gap: 15px; } .main-content h1 { font-size: 2.3rem; } }
+        nav ul li a { color: var(--text-main); text-decoration: none; font-weight: 500; }
+        .main-content { flex: 1; padding: 80px 5%; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .neon-text { color: var(--neon-cyan); }
+        .cta-btn { display: inline-block; color: var(--neon-cyan); padding: 16px 40px; border: 2px solid var(--neon-cyan); border-radius: 8px; text-decoration: none; margin-top: 30px; }
+        
+        /* --- NAYA CSS: Chatbot UI Ke Liye --- */
+        #chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 999; }
+        #chat-toggle { background: var(--neon-cyan); color: #000; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 24px; cursor: pointer; box-shadow: 0 0 15px var(--neon-cyan); }
+        #chat-box { display: none; width: 350px; height: 450px; background: var(--card-bg); border: 1px solid var(--neon-cyan); border-radius: 10px; flex-direction: column; position: absolute; bottom: 70px; right: 0; overflow: hidden; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
+        #chat-header { background: #02040a; padding: 15px; border-bottom: 1px solid var(--neon-cyan); display: flex; justify-content: space-between; align-items: center; }
+        #chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+        .msg { padding: 10px; border-radius: 8px; max-width: 80%; }
+        .bot-msg { background: #1e293b; align-self: flex-start; color: #fff; }
+        .user-msg { background: var(--neon-cyan); align-self: flex-end; color: #000; }
+        #chat-input-area { display: flex; border-top: 1px solid #1e293b; }
+        #user-input { flex: 1; padding: 12px; background: transparent; border: none; color: #fff; outline: none; }
+        #send-btn { padding: 12px 20px; background: var(--neon-cyan); color: #000; border: none; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -45,57 +45,99 @@
         <a href="index.html" class="logo">KP.Digital</a>
         <nav>
             <ul>
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="services.html">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="main-content">
-        <h1 style="font-size: 3.8rem; margin-bottom: 20px; line-height: 1.2;">Empowering Brands to Achieve <br><span class="neon-text">Digital Dominance</span></h1>
-        <p style="font-size: 1.3rem; max-width: 850px; margin: 0 auto 20px auto; color: #94a3b8;">I am Kandarp Prajapati, a data-driven Digital Marketer specializing in high-converting strategies, modern web solutions, and strategic digital growth.</p>
-        
+        <h1 style="font-size: 3.8rem; margin-bottom: 20px;">Empowering Brands to Achieve <br><span class="neon-text">Digital Dominance</span></h1>
+        <p>I am Kandarp Prajapati, a data-driven Digital Marketer specializing in high-converting strategies.</p>
         <a href="contact.html" class="cta-btn">Start Your Project Today</a>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>Strategic Approach</h3>
-                <p>Focused on tailored marketing solutions.</p>
-            </div>
-            <div class="stat-card">
-                <h3>Data-Driven</h3>
-                <p>Decisions backed by analytics and insights.</p>
-            </div>
-            <div class="stat-card">
-                <h3>Continuous Growth</h3>
-                <p>Dedicated to modern digital trends.</p>
-            </div>
-        </div>
-
-        <div class="testimonial-section">
-            <h2 class="neon-text" style="font-size: 2.5rem;">Client Expectations (Demo)</h2>
-            <div class="grid-container">
-                <div class="neon-card">
-                    <p style="font-style: italic; color: #cbd5e1;">"A proper digital marketing strategy completely transforms social media presence. Engagement and online leads skyrocket with the right execution."</p>
-                    <br><strong style="color: #fff;">- Target Result: E-commerce</strong>
-                </div>
-                <div class="neon-card">
-                    <p style="font-style: italic; color: #cbd5e1;">"Organic search ranking progressions and advanced Meta campaign management are key factors that justify marketing ROI."</p>
-                    <br><strong style="color: #fff;">- Target Result: B2B Growth</strong>
-                </div>
-            </div>
-        </div>
     </main>
 
-    <footer>
-        <p>Email: Kandarprajapati567@gmail.com | Phone: +91 8140263363</p>
-        <div class="footer-links">
-            <a href="contact.html">Hire Me</a> | 
-            <a href="https://www.instagram.com/grow_with_k.k__8140?igsh=MXFvbmUxa3NoZzd6ZQ==" target="_blank">Instagram Profile</a>
+    <div id="chat-widget">
+        <div id="chat-box">
+            <div id="chat-header">
+                <strong>AI Sales Assistant 🤖</strong>
+                <button id="close-chat" style="background: none; border: none; color: #fff; cursor: pointer;">✖</button>
+            </div>
+            <div id="chat-messages">
+                <div class="msg bot-msg">Hello! Main KP.Digital ka AI assistant hoon. Aap kis tarah ki marketing services dhoondh rahe hain?</div>
+            </div>
+            <div id="chat-input-area">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button id="send-btn">Send</button>
+            </div>
         </div>
-    </footer>
+        <button id="chat-toggle">💬</button>
+    </div>
 
+    <script>
+        const chatToggle = document.getElementById('chat-toggle');
+        const chatBox = document.getElementById('chat-box');
+        const closeChat = document.getElementById('close-chat');
+        const sendBtn = document.getElementById('send-btn');
+        const userInput = document.getElementById('user-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        // Toggle Chat window
+        chatToggle.addEventListener('click', () => chatBox.style.display = 'flex');
+        closeChat.addEventListener('click', () => chatBox.style.display = 'none');
+
+        // Function to add a message to the chat
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg');
+            msgDiv.classList.add(sender === 'user' ? 'user-msg' : 'bot-msg');
+            msgDiv.innerText = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+        }
+
+        // Handle sending message
+        sendBtn.addEventListener('click', async () => {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // 1. Show user message
+            addMessage(text, 'user');
+            userInput.value = '';
+
+            // 2. Add temporary "Typing..." indicator
+            const typingId = Date.now();
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg', 'bot-msg');
+            msgDiv.id = typingId;
+            msgDiv.innerText = 'Typing...';
+            chatMessages.appendChild(msgDiv);
+
+            try {
+                // 3. Send request to our secure backend (Hum isko next step me banayenge)
+                // Note: '/api/chat' humara Vercel serverless function hoga
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                
+                const data = await response.json();
+                
+                // 4. Remove "Typing..." and show AI response
+                document.getElementById(typingId).remove();
+                addMessage(data.reply, 'bot');
+
+            } catch (error) {
+                document.getElementById(typingId).remove();
+                addMessage("Oops! Connection error. Please try again later.", 'bot');
+            }
+        });
+
+        // Allow pressing Enter to send
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendBtn.click();
+        });
+    </script>
 </body>
 </html>
