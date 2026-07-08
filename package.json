@@ -1,0 +1,12 @@
+{
+  "name": "kp-digital-ai",
+  "version": "1.0.0",
+  "description": "AI Chatbot for Digital Marketing Portfolio",
+  "scripts": {
+    "start": "node api/chat.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.2.0",
+    "nodemailer": "^6.9.11"
+  }
+}
