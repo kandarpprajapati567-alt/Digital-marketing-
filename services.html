@@ -1,4 +1,131 @@
-<main class="main-content">
-    <h1>My Services</h1>
-    <p>1. Graphic Design <br> 2. SMM <br> 3. SEO <br> 4. PPC Ads <br> 5. Web Development</p>
-</main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services & Pricing | Digital Marketing Packages</title>
+    <meta name="description" content="Explore professional marketing plans by Kandarp Prajapati: SMM, Advanced SEO, Meta & Google Ads, and Premium Full-Stack combos.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-color: #050814; --card-bg: #0b0f19; --neon-cyan: #00e5ff; --text-main: #e2e8f0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.8; display: flex; flex-direction: column; min-height: 100vh; font-size: 18px; }
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; color: #ffffff; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background-color: rgba(5, 8, 20, 0.95); border-bottom: 2px solid var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.8rem; font-weight: 700; color: var(--neon-cyan); text-decoration: none; text-shadow: 0 0 8px var(--neon-cyan); }
+        nav ul { list-style: none; display: flex; gap: 30px; }
+        nav ul li a { color: var(--text-main); text-decoration: none; font-weight: 500; font-size: 1.1rem; transition: 0.3s; }
+        nav ul li a:hover, nav ul li a.active { color: var(--neon-cyan); text-shadow: 0 0 8px var(--neon-cyan); }
+        .main-content { flex: 1; padding: 60px 5%; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .neon-text { color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+        .section-title { text-align: center; margin: 40px 0 20px 0; font-size: 2.2rem; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 30px; }
+        .neon-card { background-color: var(--card-bg); padding: 35px; border-radius: 10px; border: 1px solid #1e293b; text-align: left; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .neon-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); transform: translateY(-5px); }
+        .price-tag { font-size: 1.4rem; color: #fff; font-weight: 700; margin-top: 20px; border-top: 1px solid #1e293b; padding-top: 15px; }
+        .combo-card { border: 1px dashed var(--neon-cyan); background: #0e1626; }
+        footer { background-color: #02040a; text-align: center; padding: 40px 20px; border-top: 1px solid #1e293b; margin-top: auto; font-size: 1rem; }
+        .footer-links a { color: var(--neon-cyan); text-decoration: none; margin: 0 15px; font-weight: 600; }
+        @media (max-width: 768px) { header { flex-direction: column; gap: 15px; } nav ul { gap: 15px; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">KP.Digital</a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <h1 class="neon-text" style="text-align: center; font-size: 2.8rem; margin-bottom: 10px;">Expert Digital Services</h1>
+        <p style="text-align: center; color: #94a3b8; max-width: 600px; margin: 0 auto 40px auto;">Data-driven individual services and powerful combo packages built for maximum online growth.</p>
+
+        <h2 class="section-title neon-text">Individual Channels</h2>
+        <div class="grid-container">
+            <div class="neon-card">
+                <div>
+                    <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">01. Graphic Design & Branding</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Proficiency-led design ecosystem creating highly consistent visual parameters, logos, and custom creatives.</p>
+                </div>
+                <div class="price-tag">₹5,000 <span style="font-size: 0.9rem; font-weight: 400; color:#94a3b8;">/ Project</span></div>
+            </div>
+
+            <div class="neon-card">
+                <div>
+                    <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">02. Social Media Marketing (SMM)</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">End-to-end multi-funnel campaign strategies, robust engagement growth matrices, and absolute audience scaling metrics.</p>
+                </div>
+                <div class="price-tag">₹12,000 <span style="font-size: 0.9rem; font-weight: 400; color:#94a3b8;">/ Month</span></div>
+            </div>
+
+            <div class="neon-card">
+                <div>
+                    <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">03. Search Engine Optimization (SEO)</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Thorough technical audit implementations, link building, and long-term organic ranking progression for your site structure.</p>
+                </div>
+                <div class="price-tag">₹18,000 <span style="font-size: 0.9rem; font-weight: 400; color:#94a3b8;">/ Month</span></div>
+            </div>
+
+            <div class="neon-card">
+                <div>
+                    <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">04. Meta & Google Ads (PPC)</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Highly optimized funnel flows, target precision analytics, and budget utilization tactics to maximize your net ROAS score.</p>
+                </div>
+                <div class="price-tag">₹15,000 <span style="font-size: 0.9rem; font-weight: 400; color:#94a3b8;">/ Month + Ad Spend</span></div>
+            </div>
+
+            <div class="neon-card">
+                <div>
+                    <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">05. Website Development</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">High-performance interactive web architecture, landing pages, custom e-commerce structures, and premium UI/UX interfaces.</p>
+                </div>
+                <div class="price-tag">₹35,000 <span style="font-size: 0.9rem; font-weight: 400; color:#94a3b8;">/ Project</span></div>
+            </div>
+        </div>
+
+        <h2 class="section-title neon-text" style="margin-top: 60px;">Combo Performance Packages</h2>
+        <div class="grid-container">
+            <div class="neon-card combo-card">
+                <div>
+                    <h3 style="color: #fff; margin-bottom: 10px;">Starter Combo</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Comprehensive SMM Management coupled with custom Graphic Design brand updates.</p>
+                </div>
+                <div class="price-tag" style="color: var(--neon-cyan);">₹16,000 <span style="font-size: 0.9rem; font-weight: 400; color:#94a3b8;">/ Month</span></div>
+            </div>
+
+            <div class="neon-card combo-card">
+                <div>
+                    <h3 style="color: #fff; margin-bottom: 10px;">Growth Combo</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">High-converting Ads deployment + Full SMM organic growth ecosystem + Basic technical SEO setup.</p>
+                </div>
+                <div class="price-tag" style="color: var(--neon-cyan);">₹30,000 <span style="font-size: 0.9rem; font-weight: 400; color:#94a3b8;">/ Month</span></div>
+            </div>
+
+            <div class="neon-card combo-card" style="border: 2px solid var(--neon-cyan);">
+                <div>
+                    <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">Premium Full-Stack</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Ultimate growth engine: Full Website Architecture + Advanced PPC Ads + Comprehensive SEO Authority + Strategic SMM.</p>
+                </div>
+                <div class="price-tag" style="color: #fff; font-size: 1.6rem;">₹40,000 <span style="font-size: 0.9rem; font-weight: 400; color:#94a3b8;">/ Month</span></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Email: Kandarprajapati567@gmail.com | Phone: +91 8140263363</p>
+        <div class="footer-links">
+            <a href="contact.html">Hire Me</a> | 
+            <a href="https://instagram.com/grow_with_k.k._8140" target="_blank">Instagram Profile</a>
+        </div>
+    </footer>
+
+</body>
+</html>
