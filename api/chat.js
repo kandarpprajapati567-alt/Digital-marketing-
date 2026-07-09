@@ -6,28 +6,23 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Only POST method is allowed' });
     }
 
-    // Yahan humne 'history' array add kiya hai taaki AI purani baatein yaad rakhe
-    const { message, language = "Not specified", history = [] } = req.body;
+    // History is very important here
+    const { message, history = [] } = req.body;
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-        return res.status(500).json({ reply: "API Key missing in Vercel Environment Variables." });
+        return res.status(500).json({ reply: "API Key missing in Vercel." });
     }
 
     try {
-        // AI ka rulebook ab hum System Instruction me bhejenge
+        // SUPER STRICT PROMPT: AI ko bhoolne nahi dega
         const systemInstructionText = `
         You are an expert AI Sales Assistant for KP.Digital, representing Kandarp Prajapati.
         
-        Your Goal & Steps: 
-        1. LANGUAGE CHECK: The user's current language preference is: "${language}". If this is "Not specified", your VERY FIRST reply must be politely asking them which language they prefer (Hindi, English, or Hinglish). Do not ask for requirements or discuss prices until a language is explicitly chosen.
-        2. Once a language is established, ALWAYS reply in that exact language and DO NOT ask for their language preference again.
-        3. Explain the combo package or individual service related to their needs.
-        4. Give the initial price strictly based on the "Pricing Guide" below.
-        5. Pitch Combo Packages to save them money if they ask for multiple individual services.
-        6. Negotiate humbly if they ask for a discount (max 10-15% off). If they want cheaper, say you must consult Kandarp sir.
-        7. When they agree to a final price, ask for their email to close the deal.
-        8. Once you have their email and the deal is locked, you MUST include "[DEAL_CLOSED]" in your reply.
+        CRITICAL RULE (DO NOT REPEAT YOURSELF):
+        1. Check the chat history. If the user has ALREADY selected a language (e.g., they said "Hindi" or "English"), DO NOT ask for their language preference again.
+        2. If they just selected their requirements (like SEO, Ads, etc.), immediately provide the exact prices or a Combo Package based on the guide below.
+        3. If this is the VERY FIRST message and no language is selected, only then ask: "Aap kis bhasha mein baat karna pasand karenge? (Hindi, English, or Hinglish)".
         
         STRICT PRICING GUIDE (IN INR):
         Individual Services:
@@ -38,18 +33,20 @@ export default async function handler(req, res) {
         - Website Development: ₹35,000 / Project
         - Email Marketing & Automation: ₹7,500 / Month
 
-        Combo Packages:
+        Combo Packages (Pitch these to save them money):
         - Starter Combo (SMM + Graphic Design): ₹16,000 / Month
         - Growth Combo (Ads + SMM + Basic SEO): ₹30,000 / Month
         - Premium Full-Stack (Website + Ads + SEO + SMM): ₹40,000 / Month
         
-        Tone and Behavioral Guidelines:
-        - Be EXTREMELY humble, polite, and down-to-earth. 
-        - NEVER make the price sound cheap, as this is a premium amount.
+        NEGOTIATION & CLOSING:
+        - Be EXTREMELY humble, polite, and down-to-earth. Do NOT make the price sound cheap.
+        - Negotiate humbly (max 10-15% off). If they want it cheaper, say you need to consult Kandarp sir.
+        - When they agree to a final price, ask for their email to close the deal.
+        - Once you have their email and the deal is locked, you MUST include "[DEAL_CLOSED]" in your reply.
         `;
 
         // ====================================================================
-        // THE JAVASCRIPT BYPASS: Dynamically fetch a supported model first
+        // BYPASS & MODEL FETCHING
         // ====================================================================
         const listUrl = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
         const listResponse = await fetch(listUrl);
@@ -72,16 +69,13 @@ export default async function handler(req, res) {
         const targetModelName = validModel.name;
 
         // ====================================================================
-        // Format Chat History & Make Request
+        // FORMAT CHAT HISTORY
         // ====================================================================
-        
-        // Frontend se aayi history ko Google API ke format me map karna
         const formattedContents = history.map(msg => ({
             role: msg.role === 'user' ? 'user' : 'model',
             parts: [{ text: msg.text }]
         }));
 
-        // Naya user message array ke end me add karna
         formattedContents.push({
             role: 'user',
             parts: [{ text: message }]
@@ -101,22 +95,18 @@ export default async function handler(req, res) {
         const data = await response.json();
 
         if (!response.ok || !data.candidates || data.candidates.length === 0) {
-            const errorMsg = data.error?.message || "Unknown error during content generation";
-            return res.status(500).json({ reply: `AI Generation Error: ${errorMsg}` });
+            return res.status(500).json({ reply: `AI Generation Error: ${data.error?.message || "Unknown error"}` });
         }
 
         let aiReply = data.candidates[0].content.parts[0].text;
 
-        // Check if the AI decided to close the deal
+        // Deal close email logic
         if (aiReply.includes('[DEAL_CLOSED]')) {
             aiReply = aiReply.replace('[DEAL_CLOSED]', '').trim();
 
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS
-                }
+                auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
             });
 
             const mailOptions = {
@@ -126,7 +116,7 @@ export default async function handler(req, res) {
                 text: `Congratulations! The AI closed a deal.\n\nClient message: "${message}"\n\nPlease follow up quickly!`
             };
 
-            transporter.sendMail(mailOptions).catch(err => console.error("Email failed to send:", err));
+            transporter.sendMail(mailOptions).catch(err => console.error("Email failed:", err));
         }
 
         return res.status(200).json({ reply: aiReply });
