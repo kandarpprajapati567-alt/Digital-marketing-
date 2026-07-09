@@ -15,7 +15,7 @@
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.8; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Montserrat', sans-serif; color: #ffffff; }
         
-        /* --- Fixed Navigation (No Hamburger Menu) --- */
+        /* --- Fixed Navigation --- */
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background-color: rgba(5, 8, 20, 0.95); border-bottom: 2px solid var(--neon-cyan); position: sticky; top: 0; z-index: 100; width: 100%; flex-wrap: wrap; gap: 15px; }
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--neon-cyan); text-decoration: none; }
         
@@ -47,15 +47,17 @@
         .req-btn-style { display: inline-block; padding: 8px 15px; background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); border-radius: 20px; font-size: 12px; transition: 0.3s; user-select: none; }
         .req-label input:checked + .req-btn-style { background: var(--neon-cyan); color: #000; font-weight: bold; box-shadow: 0 0 10px var(--neon-cyan); }
 
-        #chat-input-area { display: flex; border-top: 1px solid #1e293b; display: none; }
+        /* --- Input & Language Area --- */
+        #language-selector-area { display: none; background: #02040a; padding: 10px; border-top: 1px solid #1e293b; text-align: center; }
+        #chat-input-area { display: none; border-top: 1px solid #1e293b; }
         #user-input { flex: 1; padding: 12px; background: transparent; border: none; color: #fff; outline: none; }
         #send-btn { padding: 12px 15px; background: var(--neon-cyan); color: #000; border: none; cursor: pointer; font-weight: bold; }
 
-        /* --- Mobile Responsive CSS (Simplifying the Header) --- */
+        /* --- Mobile Responsive CSS --- */
         @media (max-width: 768px) {
             header { flex-direction: column; text-align: center; padding: 15px 10px; }
             nav ul { gap: 15px; justify-content: center; }
-            nav ul li a { font-size: 14px; } /* Thoda chota font taaki mobile par fit aa jaye */
+            nav ul li a { font-size: 14px; }
             .main-content h1 { font-size: 2.2rem; }
         }
     </style>
@@ -86,6 +88,7 @@
             
             <div id="chat-box">
                 <div id="chat-header"><strong>AI Sales Partner 🤖</strong></div>
+                
                 <div id="chat-messages">
                     <div class="msg bot-msg">
                         Hello! Main Kandarp ka AI Sales Partner hoon. Aapko jo bhi services chahiye unhe select karein aur 'Submit' dabayein:
@@ -104,6 +107,17 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="language-selector-area">
+                    <label for="chat-lang" style="color: #94a3b8; font-size: 12px; margin-right: 5px;">Select AI Language:</label>
+                    <select id="chat-lang" style="padding: 4px; border-radius: 4px; background: #0b0f19; color: var(--neon-cyan); border: 1px solid var(--neon-cyan); outline: none; font-size: 12px; cursor: pointer;">
+                        <option value="English">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Hinglish">Hinglish</option>
+                        <option value="Gujarati">Gujarati</option>
+                    </select>
+                </div>
+
                 <div id="chat-input-area">
                     <input type="text" id="user-input" placeholder="Type your message...">
                     <button id="send-btn">Send</button>
@@ -122,6 +136,7 @@
         const sendBtn = document.getElementById('send-btn');
         const submitServicesBtn = document.getElementById('submit-services-btn');
         const reqOptionsDiv = document.getElementById('requirement-options');
+        const langArea = document.getElementById('language-selector-area'); // Naya element
 
         chatToggle.addEventListener('click', () => {
             chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
@@ -141,6 +156,10 @@
             addMessage(text, 'user');
             userInput.value = '';
 
+            // Dropdown se bhasha uthana (Default English)
+            const langSelectElement = document.getElementById('chat-lang');
+            const selectedLanguage = langSelectElement ? langSelectElement.value : "English";
+
             const typingId = 'typing-' + Date.now();
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('msg', 'bot-msg');
@@ -153,7 +172,11 @@
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text })
+                    // Message aur Language dono API ko bhej rahe hain
+                    body: JSON.stringify({ 
+                        message: text,
+                        language: selectedLanguage 
+                    })
                 });
                 
                 const data = await response.json();
@@ -181,7 +204,9 @@
 
             const finalRequirementText = "I want these services: " + selectedServices.join(", ");
             
+            // UI Update: Checkboxes hide karein aur Input + Language Show karein
             reqOptionsDiv.style.display = 'none'; 
+            langArea.style.display = 'block'; // Language option submit ke baad dikhega
             inputArea.style.display = 'flex'; 
             
             sendMessageToAI(finalRequirementText);
