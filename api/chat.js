@@ -7,7 +7,8 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Only POST method is allowed' });
     }
 
-    const { message } = req.body;
+    // Extract message and the newly added language parameter (default to English)
+    const { message, language = "English" } = req.body;
     const apiKey = process.env.GEMINI_API_KEY;
 
     // Check if the API key is successfully loaded from Vercel
@@ -16,6 +17,7 @@ export default async function handler(req, res) {
     }
 
     try {
+        // Updated Prompt: Added Tone Guidelines and Language Support
         const combinedPrompt = `
         You are an expert AI Sales Assistant for KP.Digital.
         The user just selected a requirement or is trying to negotiate.
@@ -23,7 +25,7 @@ export default async function handler(req, res) {
         Your Goal: 
         1. Explain the combo package related to their message.
         2. Give the initial price.
-        3. Negotiate if they ask for a discount (max 15% off).
+        3. Negotiate humbly if they ask for a discount (max 15% off).
         4. When they agree to a final price, ask for their email to close the deal.
         5. Once you have their email and the deal is locked, you MUST include "[DEAL_CLOSED]" in your reply.
         
@@ -31,6 +33,15 @@ export default async function handler(req, res) {
         - Social Media Mgt: $300/month
         - SEO & Web Dev: $800 one-time
         - Full Package: $1200
+        
+        Tone and Behavioral Guidelines:
+        - Be EXTREMELY humble, polite, and down-to-earth. 
+        - Do NOT act arrogant or overly formal. 
+        - NEVER say "just $1200" or make the price sound cheap, as this is a premium amount.
+        - Empathize with the user if they find it expensive and smoothly offer the negotiation discount.
+        
+        Language Instruction:
+        - You MUST reply to the user entirely in the following language: ${language}.
         
         User's Message: "${message}"
         `;
@@ -50,7 +61,6 @@ export default async function handler(req, res) {
         }
 
         // 2. Find the first model that explicitly supports 'generateContent'
-        // listData.models contains objects with 'name' and 'supportedGenerationMethods' array
         const validModel = listData.models.find(model => 
             model.supportedGenerationMethods && 
             model.supportedGenerationMethods.includes("generateContent") &&
@@ -62,7 +72,6 @@ export default async function handler(req, res) {
             return res.status(500).json({ reply: "API Error: No supported Gemini models found for this API key." });
         }
 
-        // validModel.name already includes the "models/" prefix (e.g., "models/gemini-1.5-pro")
         const targetModelName = validModel.name;
         console.log(`Bypass successful! Dynamically selected model: ${targetModelName}`);
 
