@@ -10,33 +10,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentTheme = localStorage.getItem('theme') || 'dark';
     const currentLang = localStorage.getItem('aiLang') || 'English';
 
+    // Apply saved theme on page load
     if (currentTheme === 'light') {
         document.body.classList.add('light-mode');
-        themeSelector.value = 'light';
+        if (themeSelector) themeSelector.value = 'light';
     }
-    aiLangSelector.value = currentLang;
+    if (aiLangSelector) aiLangSelector.value = currentLang;
 
-    // Open/Close Modal
-    settingsBtn.addEventListener('click', () => settingsModal.style.display = 'flex');
-    closeSettingsBtn.addEventListener('click', () => settingsModal.style.display = 'none');
+    // Open & Close Modal
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', () => settingsModal.style.display = 'flex');
+    }
+    if (closeSettingsBtn) {
+        closeSettingsBtn.addEventListener('click', () => settingsModal.style.display = 'none');
+    }
 
-    // Change Theme
-    themeSelector.addEventListener('change', (e) => {
-        if (e.target.value === 'light') {
-            document.body.classList.add('light-mode');
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.body.classList.remove('light-mode');
-            localStorage.setItem('theme', 'dark');
-        }
-    });
+    // Handle Theme Change
+    if (themeSelector) {
+        themeSelector.addEventListener('change', (e) => {
+            if (e.target.value === 'light') {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
 
-    // Change Global AI Language
-    aiLangSelector.addEventListener('change', (e) => {
-        localStorage.setItem('aiLang', e.target.value);
-    });
+    // Handle Language Change
+    if (aiLangSelector) {
+        aiLangSelector.addEventListener('change', (e) => {
+            localStorage.setItem('aiLang', e.target.value);
+        });
+    }
 
-    // --- 2. Chatbot UI Logic (Only run if chatbox exists on page) ---
+    // --- 2. Chatbot UI Logic (Only runs if chatbox is on the current page) ---
     const chatToggle = document.getElementById('chat-toggle');
     if (chatToggle) {
         const chatBox = document.getElementById('chat-box');
@@ -64,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
             addMessage(text, 'user');
             userInput.value = '';
 
-            // Get language directly from localStorage now!
+            // Get language directly from Settings (LocalStorage)
             const selectedLanguage = localStorage.getItem('aiLang') || 'English';
 
             const typingId = 'typing-' + Date.now();
