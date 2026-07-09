@@ -56,6 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const submitServicesBtn = document.getElementById('submit-services-btn');
         const reqOptionsDiv = document.getElementById('requirement-options');
 
+        // NEW: Chat history array to maintain the conversation context
+        let chatHistory = []; 
+
         chatToggle.addEventListener('click', () => {
             chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
             chatToggle.innerText = chatBox.style.display === 'flex' ? 'Close Assistant' : 'Open AI Assistant';
@@ -73,6 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
             addMessage(text, 'user');
             userInput.value = '';
 
+            // NEW: Add the user's message to our local chat history
+            chatHistory.push({ role: 'user', text: text });
+
             // Get language directly from Settings (LocalStorage)
             const selectedLanguage = localStorage.getItem('aiLang') || 'English';
 
@@ -88,12 +94,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text, language: selectedLanguage })
+                    body: JSON.stringify({ 
+                        message: text, 
+                        language: selectedLanguage,
+                        history: chatHistory // NEW: Sending the history to backend
+                    })
                 });
                 
                 const data = await response.json();
                 document.getElementById(typingId).remove();
-                addMessage(data.reply || "Error connecting to AI.", 'bot');
+                
+                const botReply = data.reply || "Error connecting to AI.";
+                addMessage(botReply, 'bot');
+
+                // NEW: Add the AI's reply to our local chat history
+                if (data.reply) {
+                    chatHistory.push({ role: 'model', text: data.reply });
+                }
+
             } catch (error) {
                 document.getElementById(typingId).remove();
                 addMessage("Connection error. Please try again later.", 'bot');
