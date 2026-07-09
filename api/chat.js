@@ -16,7 +16,6 @@ export default async function handler(req, res) {
     }
 
     try {
-        // The combined prompt containing rules and user message
         const combinedPrompt = `
         You are an expert AI Sales Assistant for KP.Digital.
         The user just selected a requirement or is trying to negotiate.
@@ -36,48 +35,60 @@ export default async function handler(req, res) {
         User's Message: "${message}"
         `;
 
-        // List of models to try. We include '-latest' to handle strict 404 errors.
-        const availableModels = ["gemini-1.5-flash-latest", "gemini-1.5-flash", "gemini-pro"];
-        let aiReply = "";
-        let success = false;
-        let lastErrorMessage = "";
+        // ====================================================================
+        // THE JAVASCRIPT BYPASS: Dynamically fetch a supported model first
+        // ====================================================================
+        
+        // 1. Fetch available models from Google
+        const listUrl = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
+        const listResponse = await fetch(listUrl);
+        const listData = await listResponse.json();
 
-        // Fallback Loop: Try models one by one using the native fetch API
-        for (let modelName of availableModels) {
-            try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
-                
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: combinedPrompt }] }]
-                    })
-                });
-
-                const data = await response.json();
-
-                // If the response is good, extract the text and stop the loop
-                if (response.ok && data.candidates && data.candidates.length > 0) {
-                    aiReply = data.candidates[0].content.parts[0].text;
-                    success = true;
-                    break; 
-                } else {
-                    // Log the error but allow the loop to continue to the next model
-                    lastErrorMessage = data.error?.message || "Unknown API error";
-                    console.warn(`Model ${modelName} failed: ${lastErrorMessage}`);
-                }
-            } catch (err) {
-                lastErrorMessage = err.message;
-                console.warn(`Fetch request failed for ${modelName}: ${err.message}`);
-            }
+        if (!listResponse.ok) {
+            console.error("Model fetch failed:", listData.error?.message);
+            return res.status(500).json({ reply: `API Authentication Error: ${listData.error?.message}` });
         }
 
-        // If all models in the array failed, send the error to the chat UI
-        if (!success) {
-            console.error("All models failed. Last Error:", lastErrorMessage);
-            return res.status(500).json({ reply: `API Error: ${lastErrorMessage}` });
+        // 2. Find the first model that explicitly supports 'generateContent'
+        // listData.models contains objects with 'name' and 'supportedGenerationMethods' array
+        const validModel = listData.models.find(model => 
+            model.supportedGenerationMethods && 
+            model.supportedGenerationMethods.includes("generateContent") &&
+            model.name.includes("gemini") // Ensure we are picking a Gemini model
+        );
+
+        if (!validModel) {
+            console.error("No compatible models found in the API response.");
+            return res.status(500).json({ reply: "API Error: No supported Gemini models found for this API key." });
         }
+
+        // validModel.name already includes the "models/" prefix (e.g., "models/gemini-1.5-pro")
+        const targetModelName = validModel.name;
+        console.log(`Bypass successful! Dynamically selected model: ${targetModelName}`);
+
+        // ====================================================================
+        // 3. Make the actual request using the dynamically found model
+        // ====================================================================
+        const generateUrl = `https://generativelanguage.googleapis.com/v1beta/${targetModelName}:generateContent?key=${apiKey}`;
+        
+        const response = await fetch(generateUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: combinedPrompt }] }]
+            })
+        });
+
+        const data = await response.json();
+
+        // 4. Handle API processing
+        if (!response.ok || !data.candidates || data.candidates.length === 0) {
+            const errorMsg = data.error?.message || "Unknown error during content generation";
+            console.error("Content generation failed:", errorMsg);
+            return res.status(500).json({ reply: `AI Generation Error: ${errorMsg}` });
+        }
+
+        let aiReply = data.candidates[0].content.parts[0].text;
 
         // Check if the AI decided to close the deal
         if (aiReply.includes('[DEAL_CLOSED]')) {
@@ -101,7 +112,7 @@ export default async function handler(req, res) {
             };
 
             // Send the email in the background
-            transporter.sendMail(mailOptions).catch(console.error);
+            transporter.sendMail(mailOptions).catch(err => console.error("Email failed to send:", err));
         }
 
         // Send the AI's response back to the user
